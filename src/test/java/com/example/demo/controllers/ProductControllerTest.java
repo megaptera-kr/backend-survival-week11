@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.application.product.CreateProductService;
 import com.example.demo.application.product.GetProductListService;
+import com.example.demo.dtos.CreateProductDto;
 import com.example.demo.dtos.ProductListDto;
 import com.example.demo.models.Money;
 import org.junit.jupiter.api.DisplayName;
@@ -10,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.FileInputStream;
 import java.util.List;
 
 import static com.example.demo.controllers.helpers.ResultMatchers.contentContains;
@@ -38,7 +43,7 @@ class ProductControllerTest {
     @DisplayName("GET /products")
     void list() throws Exception {
         ProductListDto.ProductDto productDto =
-            new ProductListDto.ProductDto("test-id", "제품", 100_000L);
+            new ProductListDto.ProductDto("test-id", "제품", "image-path",100_000L);
 
         given(getProductListService.getProductListDto()).willReturn(
             new ProductListDto(List.of(productDto)));
@@ -51,22 +56,19 @@ class ProductControllerTest {
     @Test
     @DisplayName("POST /products")
     void create() throws Exception {
-        String json = String.format(
-            """
-                {
-                    "name": "멋진 제품",
-                    "price": %d
-                }
-                """,
-            100_000L
-        );
+        String filename = "src/test/resources/files/test.jpg";
 
-        mockMvc.perform(post("/products")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-            .andExpect(status().isCreated());
+        MockMultipartFile file = new MockMultipartFile(
+                "image", "test.jpg", "image/jpeg",
+                new FileInputStream(filename));
 
-        verify(createProductService)
-            .createProduct("멋진 제품", new Money(100_000L));
+
+        var reqBody = new CreateProductDto("멋진 제품", file, 100_000L);
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/products")
+                        .file(file)
+                        .param("name", reqBody.name())
+                        .param("price", String.valueOf(reqBody.price())))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 }
