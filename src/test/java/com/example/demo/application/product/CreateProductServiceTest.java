@@ -26,8 +26,8 @@ class CreateProductServiceTest {
     void createProduct() {
         String name = "제-품";
         Money price = new Money(100_000L);
-
-        Product product = createProductService.createProduct(name, price);
+        String image = "ddd.jpg";
+        Product product = createProductService.createProduct(name, price, image);
 
         assertThat(product.name()).isEqualTo(name);
         assertThat(product.price()).isEqualTo(price);

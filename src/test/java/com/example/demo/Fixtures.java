@@ -12,7 +12,7 @@ public class Fixtures {
     public static Product product(int number) {
         ProductId productId = new ProductId("012300000000" + number);
         return new Product(
-                productId, "Product #" + number, new Money(123_000L));
+                productId, "Product #" + number, new Money(123_000L), "test.jpg");
     }
 
     public static Cart cart() {

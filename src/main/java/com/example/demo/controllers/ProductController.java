@@ -5,8 +5,13 @@ import com.example.demo.application.product.GetProductListService;
 import com.example.demo.dtos.CreateProductDto;
 import com.example.demo.dtos.ProductListDto;
 import com.example.demo.models.Money;
+import com.example.demo.utils.ImageStorage;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("products")
@@ -14,11 +19,15 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final GetProductListService getProductListService;
     private final CreateProductService createProductService;
+    private final ImageStorage imageStorage;
 
     public ProductController(GetProductListService getProductListService,
-                             CreateProductService createProductService) {
+                             CreateProductService createProductService,
+                             ImageStorage imageStorage
+    ) {
         this.getProductListService = getProductListService;
         this.createProductService = createProductService;
+        this.imageStorage = imageStorage;
     }
 
     @GetMapping
@@ -26,12 +35,19 @@ public class ProductController {
         return getProductListService.getProductListDto();
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateProductDto dto) {
+    public void create(@ModelAttribute CreateProductDto dto) throws IOException {
         String name = dto.name().strip();
         Money price = new Money(dto.price());
-
-        createProductService.createProduct(name, price);
+        MultipartFile multipartFile = dto.image();
+        String imageFileName = "";
+        if (multipartFile == null || multipartFile.isEmpty()) {
+            imageFileName = "No image";
+        } else {
+            imageFileName = multipartFile.getOriginalFilename();
+            imageStorage.save(multipartFile.getBytes());
+        }
+        createProductService.createProduct(name, price, imageFileName);
     }
 }
