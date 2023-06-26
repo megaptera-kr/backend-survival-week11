@@ -16,6 +16,7 @@ public class ProductListDto {
     public record ProductDto(
         String id,
         String name,
+        String image,
         Long price
     ) {
     }
