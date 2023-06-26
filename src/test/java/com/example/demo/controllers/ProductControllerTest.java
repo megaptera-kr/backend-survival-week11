@@ -43,7 +43,7 @@ class ProductControllerTest {
     @DisplayName("GET /products")
     void list() throws Exception {
         ProductListDto.ProductDto productDto =
-            new ProductListDto.ProductDto("test-id", "제품", 100_000L);
+            new ProductListDto.ProductDto("test-id", "제품", "IMAGE_URL", 100_000L );
 
         given(getProductListService.getProductListDto()).willReturn(
             new ProductListDto(List.of(productDto)));
@@ -62,6 +62,8 @@ class ProductControllerTest {
                 "image", "test.jpg", "image/jpeg",
                 new FileInputStream(filename)
         );
+
+        given(imageStorage.save(file)).willReturn("data/image.jpg");
 
         mockMvc.perform(multipart("/products")
                 .file(file)
