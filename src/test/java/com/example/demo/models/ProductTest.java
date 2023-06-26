@@ -11,6 +11,7 @@ class ProductTest {
 
         assertThat(product.id()).isNotNull();
         assertThat(product.name()).isEqualTo("제품명");
+        assertThat(product.imageUrl()).isEqualTo("IMAGE_URL");
         assertThat(product.price()).isEqualTo(new Money(123_456L));
     }
 }
