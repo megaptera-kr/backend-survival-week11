@@ -1,6 +1,12 @@
 package com.example.demo;
 
-import com.example.demo.models.*;
+import com.example.demo.models.Cart;
+import com.example.demo.models.CartId;
+import com.example.demo.models.LineItem;
+import com.example.demo.models.LineItemId;
+import com.example.demo.models.Money;
+import com.example.demo.models.Product;
+import com.example.demo.models.ProductId;
 
 import java.util.List;
 
@@ -12,7 +18,7 @@ public class Fixtures {
     public static Product product(int number) {
         ProductId productId = new ProductId("012300000000" + number);
         return new Product(
-                productId, "Product #" + number, new Money(123_000L));
+                productId, "Product #" + number, "data/test.jpg", new Money(123_000L));
     }
 
     public static Cart cart() {
