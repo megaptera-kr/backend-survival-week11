@@ -3,6 +3,7 @@ package com.example.demo.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,9 @@ public class Product {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -28,14 +32,15 @@ public class Product {
     private Product() {
     }
 
-    public Product(ProductId id, String name, Money price) {
+    public Product(ProductId id, String name, Money price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
-    public static Product create(String name, Money price) {
-        return new Product(ProductId.generate(), name, price);
+    public static Product create(String name, Money price, String imageUrl) {
+        return new Product(ProductId.generate(), name, price, imageUrl);
     }
 
     public ProductId id() {
@@ -48,5 +53,9 @@ public class Product {
 
     public Money price() {
         return price;
+    }
+
+    public String imageUrl() {
+        return imageUrl;
     }
 }
