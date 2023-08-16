@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +21,7 @@ class CartTest {
 
     @Test
     @DisplayName("addProduct - when product is not in the cart")
-    void addNewProduct() {
+    void addNewProduct() throws IOException {
         Product product1 = Fixtures.product(1);
         Product product2 = Fixtures.product(2);
 
@@ -35,7 +36,7 @@ class CartTest {
 
     @Test
     @DisplayName("addProduct - when product is already in the cart")
-    void addSameProduct() {
+    void addSameProduct() throws IOException {
         Product product = Fixtures.product();
 
         cart.addProduct(product, 1);
@@ -54,7 +55,7 @@ class CartTest {
     @Test
     @DisplayName("addProduct - when product is not in the cart" +
             " and quantity is not positive")
-    void addProductWithInvalidQuantity() {
+    void addProductWithInvalidQuantity() throws IOException {
         Product product = Fixtures.product();
 
         cart.addProduct(product, 0);
@@ -65,7 +66,7 @@ class CartTest {
     @Test
     @DisplayName("addProduct - when product is already in the cart" +
             " and quantity is not positive")
-    void addProductWithSameProductAndInvalidQuantity() {
+    void addProductWithSameProductAndInvalidQuantity() throws IOException {
         Product product = Fixtures.product();
 
         cart.addProduct(product, 1);
@@ -79,7 +80,7 @@ class CartTest {
 
     @Test
     @DisplayName("changeLineItemQuantity - with correct ID")
-    void changeItemQuantity() {
+    void changeItemQuantity() throws IOException {
         Product product = Fixtures.product();
 
         cart.addProduct(product, 1);
@@ -101,7 +102,7 @@ class CartTest {
 
     @Test
     @DisplayName("changeLineItemQuantity - when quantity is not positive")
-    void changeItemQuantityWithNotPositiveQuantity() {
+    void changeItemQuantityWithNotPositiveQuantity() throws IOException {
         Product product = Fixtures.product();
 
         cart.addProduct(product, 1);

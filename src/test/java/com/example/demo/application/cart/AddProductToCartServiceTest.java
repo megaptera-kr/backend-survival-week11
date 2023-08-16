@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +37,7 @@ class AddProductToCartServiceTest {
 
     @Test
     @DisplayName("addProduct - when cart doesn't exist")
-    void cartNotExists() {
+    void cartNotExists() throws IOException {
         Product product = Fixtures.product();
         ProductId productId = product.id();
 
@@ -53,7 +54,7 @@ class AddProductToCartServiceTest {
 
     @Test
     @DisplayName("addProduct - when cart exists")
-    void cartExists() {
+    void cartExists() throws IOException {
         Cart cart = Fixtures.cart();
 
         Product product = Fixtures.product();
