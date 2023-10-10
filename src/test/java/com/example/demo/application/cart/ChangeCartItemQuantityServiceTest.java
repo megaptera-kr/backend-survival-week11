@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ class ChangeCartItemQuantityServiceTest {
 
     @Test
     @DisplayName("changeQuantity - when line item exists")
-    void changeQuantity() {
+    void changeQuantity() throws IOException {
         Cart cart = Fixtures.cart(List.of(Fixtures.product()));
 
         LineItem lineItem = cart.lineItem(0);
@@ -48,7 +49,7 @@ class ChangeCartItemQuantityServiceTest {
 
     @Test
     @DisplayName("changeQuantity - with incorrect item ID")
-    void changeQuantityWithIncorrectID() {
+    void changeQuantityWithIncorrectID() throws IOException {
         Cart cart = Fixtures.cart(List.of(Fixtures.product()));
 
         LineItemId lineItemId = new LineItemId("test-id");

@@ -3,11 +3,13 @@ package com.example.demo.models;
 import com.example.demo.Fixtures;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LineItemTest {
     @Test
-    void creation() {
+    void creation() throws IOException {
         Product product = Fixtures.product();
         ProductId productId = product.id();
 
@@ -19,7 +21,7 @@ class LineItemTest {
     }
 
     @Test
-    void increaseQuantity() {
+    void increaseQuantity() throws IOException {
         Product product = Fixtures.product();
 
         LineItem lineItem = LineItem.create(product, 2);
@@ -31,7 +33,7 @@ class LineItemTest {
     }
 
     @Test
-    void changeQuantity() {
+    void changeQuantity() throws IOException {
         Product product = Fixtures.product();
 
         LineItem lineItem = LineItem.create(product, 2);
