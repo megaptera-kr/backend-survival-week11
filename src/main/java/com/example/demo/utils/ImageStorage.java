@@ -1,4 +1,4 @@
-package com.example.demo.application.utils;
+package com.example.demo.utils;
 
 import io.hypersistence.tsid.TSID;
 import org.springframework.stereotype.Component;
@@ -12,9 +12,15 @@ import java.io.OutputStream;
 @Component
 public class ImageStorage {
     public String save(MultipartFile multipartFile) {
+
+        if(multipartFile == null || multipartFile.isEmpty()) {
+            return "No Image";
+        }
+
         String id = TSID.Factory.getTsid().toString();
 
         String filename = "data/" + id + ".jpg";
+
         File file = new File(filename);
 
         try (OutputStream outputStream =

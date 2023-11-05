@@ -28,6 +28,7 @@ public class ProductDtoFetcher {
                 new ProductListDto.ProductDto(
                     resultSet.getString("id"),
                     resultSet.getString("name"),
+                    resultSet.getString("image"),
                     resultSet.getLong("price")
                 )
         );

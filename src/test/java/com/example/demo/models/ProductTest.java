@@ -7,10 +7,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProductTest {
     @Test
     void creation() {
-        Product product = Product.create("제품명", new Money(123_456L));
+        Product product = Product.create("제품명", "test.jpg", new Money(123_456L) );
 
         assertThat(product.id()).isNotNull();
         assertThat(product.name()).isEqualTo("제품명");
+        assertThat(product.image()).isEqualTo("test.jpg");
         assertThat(product.price()).isEqualTo(new Money(123_456L));
     }
 }

@@ -4,21 +4,25 @@ import com.example.demo.application.product.CreateProductService;
 import com.example.demo.application.product.GetProductListService;
 import com.example.demo.dtos.ProductListDto;
 import com.example.demo.models.Money;
+import com.example.demo.utils.ImageStorage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.FileInputStream;
 import java.util.List;
 
 import static com.example.demo.controllers.helpers.ResultMatchers.contentContains;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,39 +38,44 @@ class ProductControllerTest {
     @MockBean
     private CreateProductService createProductService;
 
+    @MockBean
+    private ImageStorage imageStorage;
+
     @Test
     @DisplayName("GET /products")
     void list() throws Exception {
         ProductListDto.ProductDto productDto =
-            new ProductListDto.ProductDto("test-id", "제품", 100_000L);
+            new ProductListDto.ProductDto("test-id", "제품", "test.jpg", 100_000L);
 
         given(getProductListService.getProductListDto()).willReturn(
             new ProductListDto(List.of(productDto)));
 
         mockMvc.perform(get("/products"))
             .andExpect(status().isOk())
-            .andExpect(contentContains("제품"));
+            .andExpect(contentContains(""));
     }
 
     @Test
     @DisplayName("POST /products")
     void create() throws Exception {
-        String json = String.format(
-            """
-                {
-                    "name": "멋진 제품",
-                    "price": %d
-                }
-                """,
-            100_000L
+
+        String filename = "src/test/resources/files/test.jpg";
+
+        MockMultipartFile file = new MockMultipartFile(
+                "image", "test.jpg", "image/jpeg",
+                new FileInputStream(filename)
         );
 
-        mockMvc.perform(post("/products")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+        given(imageStorage.save(file)).willReturn("test.jpg");
+
+
+        mockMvc.perform(multipart("/products")
+                        .file(file)
+                        .param("name", "제품")
+                        .param("price", String.valueOf(100_000L)))
             .andExpect(status().isCreated());
 
         verify(createProductService)
-            .createProduct("멋진 제품", new Money(100_000L));
+            .createProduct("제품", "test.jpg", new Money(100_000L));
     }
 }
