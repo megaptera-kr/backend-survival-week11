@@ -67,6 +67,6 @@ class ProductControllerTest {
             .andExpect(status().isCreated());
 
         verify(createProductService)
-            .createProduct("멋진 제품", new Money(100_000L));
+                .createProduct("멋진 제품", new Money(100_000L), "data/test.jpg");
     }
 }
