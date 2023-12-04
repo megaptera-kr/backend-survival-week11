@@ -25,17 +25,21 @@ public class Product {
     @AttributeOverride(name = "value", column = @Column(name = "price"))
     private Money price;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     private Product() {
     }
 
-    public Product(ProductId id, String name, Money price) {
+    public Product(ProductId id, String name, Money price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
-    public static Product create(String name, Money price) {
-        return new Product(ProductId.generate(), name, price);
+    public static Product create(String name, Money price, String imageUrl) {
+        return new Product(ProductId.generate(), name, price, imageUrl);
     }
 
     public ProductId id() {
@@ -48,5 +52,9 @@ public class Product {
 
     public Money price() {
         return price;
+    }
+
+    public String imageUrl() {
+        return imageUrl;
     }
 }

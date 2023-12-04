@@ -26,11 +26,13 @@ class CreateProductServiceTest {
     void createProduct() {
         String name = "제-품";
         Money price = new Money(100_000L);
+        String imageUrl = "data/test.jpg";
 
-        Product product = createProductService.createProduct(name, price);
+        Product product = createProductService.createProduct(name, price, imageUrl);
 
         assertThat(product.name()).isEqualTo(name);
         assertThat(product.price()).isEqualTo(price);
+        assertThat(product.imageUrl()).isEqualTo(imageUrl);
 
         verify(productRepository).save(product);
     }

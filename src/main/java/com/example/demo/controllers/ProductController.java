@@ -4,9 +4,12 @@ import com.example.demo.application.product.CreateProductService;
 import com.example.demo.application.product.GetProductListService;
 import com.example.demo.dtos.CreateProductDto;
 import com.example.demo.dtos.ProductListDto;
+import com.example.demo.infrastructure.ImageStorage;
 import com.example.demo.models.Money;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("products")
@@ -14,11 +17,16 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final GetProductListService getProductListService;
     private final CreateProductService createProductService;
+    private final ImageStorage imageStorage;
 
-    public ProductController(GetProductListService getProductListService,
-                             CreateProductService createProductService) {
+    public ProductController(
+            GetProductListService getProductListService,
+            CreateProductService createProductService,
+            ImageStorage imageStorage
+    ) {
         this.getProductListService = getProductListService;
         this.createProductService = createProductService;
+        this.imageStorage = imageStorage;
     }
 
     @GetMapping
@@ -26,12 +34,13 @@ public class ProductController {
         return getProductListService.getProductListDto();
     }
 
-    @PostMapping
+    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateProductDto dto) {
+    public void create(@ModelAttribute CreateProductDto dto) {
         String name = dto.name().strip();
         Money price = new Money(dto.price());
+        String imageUrl = imageStorage.upload(dto.image());
 
-        createProductService.createProduct(name, price);
+        createProductService.createProduct(name, price, imageUrl);
     }
 }
