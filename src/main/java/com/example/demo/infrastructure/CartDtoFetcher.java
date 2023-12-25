@@ -20,7 +20,7 @@ public class CartDtoFetcher {
         String sql = """
             SELECT
                 *,
-                products.name AS product_name
+                products.name AS product_name2
             FROM line_items
             JOIN products ON line_items.product_id = products.id
             WHERE line_items.cart_id = ?
@@ -31,7 +31,7 @@ public class CartDtoFetcher {
             sql,
             (ResultSet resultSet, int rowNum) -> new CartDto.LineItemDto(
                 resultSet.getString("id"),
-                resultSet.getString("product_name"),
+                resultSet.getString("product_name2"),
                 resultSet.getLong("unit_price"),
                 resultSet.getInt("quantity"),
                 resultSet.getLong("total_price")

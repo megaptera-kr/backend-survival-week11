@@ -33,7 +33,7 @@ public class LineItem {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private LineItem() {
+    protected LineItem() {
     }
 
     public LineItem(LineItemId id, Product product, int quantity) {

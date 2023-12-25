@@ -1,7 +1,10 @@
 package com.example.demo.models;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class LineItemId extends EntityId {
-    private LineItemId() {
+    public LineItemId() {
         super();
     }
 

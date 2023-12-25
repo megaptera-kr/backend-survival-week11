@@ -26,7 +26,7 @@ public class Cart {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private Cart() {
+    protected Cart() {
     }
 
     public Cart(CartId cartId) {
