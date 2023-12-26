@@ -15,6 +15,8 @@ class CreateProductServiceTest {
 
     private CreateProductService createProductService;
 
+    private final String filename = "src/test/resources/files/test.jpg";
+
     @BeforeEach
     void setUp() {
         productRepository = mock(ProductRepository.class);
@@ -27,7 +29,7 @@ class CreateProductServiceTest {
         String name = "제-품";
         Money price = new Money(100_000L);
 
-        Product product = createProductService.createProduct(name, price);
+        Product product = createProductService.createProduct(name, price, filename);
 
         assertThat(product.name()).isEqualTo(name);
         assertThat(product.price()).isEqualTo(price);
