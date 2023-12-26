@@ -25,11 +25,14 @@ class CreateProductServiceTest {
     @Test
     void createProduct() {
         String name = "제-품";
+        String imageUrl = "IMAGE_URL";
         Money price = new Money(100_000L);
 
-        Product product = createProductService.createProduct(name, price);
+        Product product = createProductService
+                .createProduct(name, imageUrl, price);
 
         assertThat(product.name()).isEqualTo(name);
+        assertThat(product.imageUrl()).isEqualTo(imageUrl);
         assertThat(product.price()).isEqualTo(price);
 
         verify(productRepository).save(product);
