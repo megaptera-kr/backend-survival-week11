@@ -1,10 +1,18 @@
 package com.example.demo;
 
-import com.example.demo.models.*;
+import com.example.demo.models.Cart;
+import com.example.demo.models.CartId;
+import com.example.demo.models.LineItem;
+import com.example.demo.models.LineItemId;
+import com.example.demo.models.Money;
+import com.example.demo.models.Product;
+import com.example.demo.models.ProductId;
 
 import java.util.List;
 
 public class Fixtures {
+    private static final String filename = "src/test/resources/files/test.jpg";
+
     public static Product product() {
         return product(1);
     }
@@ -12,7 +20,7 @@ public class Fixtures {
     public static Product product(int number) {
         ProductId productId = new ProductId("012300000000" + number);
         return new Product(
-                productId, "Product #" + number, new Money(123_000L));
+                productId, "Product #" + number, new Money(123_000L), filename);
     }
 
     public static Cart cart() {
