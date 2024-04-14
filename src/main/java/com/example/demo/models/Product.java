@@ -15,6 +15,9 @@ public class Product {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -28,14 +31,15 @@ public class Product {
     private Product() {
     }
 
-    public Product(ProductId id, String name, Money price) {
+    public Product(ProductId id, String name, String imageUrl, Money price) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.price = price;
     }
 
-    public static Product create(String name, Money price) {
-        return new Product(ProductId.generate(), name, price);
+    public static Product create(String name, String imageUrl, Money price) {
+        return new Product(ProductId.generate(), name, imageUrl, price);
     }
 
     public ProductId id() {
@@ -45,6 +49,8 @@ public class Product {
     public String name() {
         return name;
     }
+
+    public String imageUrl() {return imageUrl;}
 
     public Money price() {
         return price;
