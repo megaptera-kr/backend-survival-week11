@@ -1,7 +1,10 @@
 package com.example.demo.models;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class ProductId extends EntityId {
-    private ProductId() {
+    public ProductId() {
         super();
     }
 

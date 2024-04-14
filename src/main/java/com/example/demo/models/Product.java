@@ -28,12 +28,13 @@ public class Product {
     @AttributeOverride(name = "value", column = @Column(name = "price"))
     private Money price;
 
-    private Product() {
+    public Product() {
     }
 
     public Product(ProductId id, String name, Money price, String imageUrl) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.price = price;
         this.imageUrl = imageUrl;
     }
@@ -50,6 +51,9 @@ public class Product {
         return name;
     }
 
+    public String imageUrl() {
+        return imageUrl;
+    }
     public Money price() {
         return price;
     }

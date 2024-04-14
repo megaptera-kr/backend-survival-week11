@@ -17,7 +17,7 @@ public class CreateProductService {
 
     public Product createProduct(String name, Money price, String imageUrl) {
         Product product = Product.create(name, price, imageUrl);
-
+  
         productRepository.save(product);
 
         return product;

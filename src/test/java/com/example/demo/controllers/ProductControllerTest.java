@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,8 +21,7 @@ import java.util.List;
 import static com.example.demo.controllers.helpers.ResultMatchers.contentContains;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProductController.class)
@@ -59,18 +59,7 @@ class ProductControllerTest {
         String filename = "src/test/resources/files/test.jpg";
         MockMultipartFile file = new MockMultipartFile(
                 "image", "test.jpg", "image/jpeg",
-                new FileInputStream(filename)
-        );
-
-        String json = String.format(
-                """
-                        {
-                            "name": "멋진 제품",
-                            "price": %d
-                        }
-                        """,
-                100_000L
-        );
+                new FileInputStream(filename));
 
         given(imageStorage.save(file)).willReturn("data/image.jpg");
 

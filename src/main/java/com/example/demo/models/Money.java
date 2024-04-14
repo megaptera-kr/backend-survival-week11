@@ -10,7 +10,7 @@ public class Money {
     @Column(name = "money")
     private Long value;
 
-    private Money() {
+    public Money() {
 
     }
 
