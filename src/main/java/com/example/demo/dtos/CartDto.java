@@ -14,11 +14,11 @@ public class CartDto {
     }
 
     public record LineItemDto(
-        String id,
-        String productName,
-        long unitPrice,
-        int quantity,
-        long totalPrice
+            String id,
+            String productName,
+            long unitPrice,
+            int quantity,
+            long totalPrice
     ) {
     }
 }
