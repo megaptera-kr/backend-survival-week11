@@ -43,8 +43,7 @@ class ProductControllerTest {
     @DisplayName("GET /products")
     void list() throws Exception {
         ProductListDto.ProductDto productDto =
-                new ProductListDto
-                        .ProductDto("test-id", "제품", "IMAGE_URL", 100_000L);
+                new ProductListDto.ProductDto("test-id", "제품", 100_000L, "IMAGE_URL");
 
         given(getProductListService.getProductListDto()).willReturn(
                 new ProductListDto(List.of(productDto)));
@@ -58,7 +57,6 @@ class ProductControllerTest {
     @DisplayName("POST /products")
     void create() throws Exception {
         String filename = "src/test/resources/files/test.jpg";
-
         MockMultipartFile file = new MockMultipartFile(
                 "image", "test.jpg", "image/jpeg",
                 new FileInputStream(filename));
@@ -72,6 +70,6 @@ class ProductControllerTest {
                 .andExpect(status().isCreated());
 
         verify(createProductService)
-                .createProduct("신제품", "data/image.jpg", new Money(100_000L));
+                .createProduct("신제품", new Money(100_000L), "data/image.jpg");
     }
 }

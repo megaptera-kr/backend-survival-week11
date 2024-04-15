@@ -10,20 +10,18 @@ import java.io.IOException;
 
 @Component
 public class ImageStorage {
-    public String save(MultipartFile multipartFile) {
-        if (multipartFile == null || multipartFile.isEmpty()) {
-            return "No image";
-        }
+    public String save(MultipartFile multipartFile){
+        if(multipartFile == null || multipartFile.isEmpty()) return "No Image";
 
         String id = TSID.Factory.getTsid().toString();
         String filename = "data/" + id + ".jpg";
 
         File file = new File(filename);
 
-        try (FileOutputStream output = new FileOutputStream(file)) {
-            output.write(multipartFile.getBytes());
+        try (FileOutputStream outputStream = new FileOutputStream(file)){
+            outputStream.write(multipartFile.getBytes());
             return filename;
-        } catch (IOException e) {
+        } catch (IOException e){
             throw new RuntimeException(e);
         }
     }

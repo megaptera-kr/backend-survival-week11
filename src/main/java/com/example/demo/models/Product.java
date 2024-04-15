@@ -31,15 +31,16 @@ public class Product {
     public Product() {
     }
 
-    public Product(ProductId id, String name, String imageUrl, Money price) {
+    public Product(ProductId id, String name, Money price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
-    public static Product create(String name, String imageUrl, Money price) {
-        return new Product(ProductId.generate(), name, imageUrl, price);
+    public static Product create(String name, Money price, String imageUrl) {
+        return new Product(ProductId.generate(), name, price, imageUrl);
     }
 
     public ProductId id() {
@@ -55,5 +56,9 @@ public class Product {
     }
     public Money price() {
         return price;
+    }
+
+    public String imageUrl() {
+        return imageUrl;
     }
 }

@@ -17,20 +17,20 @@ public class ProductDtoFetcher {
 
     public ProductListDto fetchProductListDto() {
         String sql = """
-            SELECT *
-            FROM products
-            ORDER BY products.id DESC
-            """;
+                SELECT *
+                FROM products
+                ORDER BY products.id DESC
+                """;
 
         List<ProductListDto.ProductDto> productDtos = jdbcTemplate.query(
-            sql,
-            (ResultSet resultSet, int rowNum) ->
-                new ProductListDto.ProductDto(
-                    resultSet.getString("id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("image_url"),
-                    resultSet.getLong("price")
-                )
+                sql,
+                (ResultSet resultSet, int rowNum) ->
+                        new ProductListDto.ProductDto(
+                                resultSet.getString("id"),
+                                resultSet.getString("name"),
+                                resultSet.getLong("price"),
+                                resultSet.getString("image_url")
+                        )
         );
 
         return new ProductListDto(productDtos);

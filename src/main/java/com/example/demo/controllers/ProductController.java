@@ -20,9 +20,9 @@ public class ProductController {
     private final CreateProductService createProductService;
     private final ImageStorage imageStorage;
 
-
     public ProductController(GetProductListService getProductListService,
-                             CreateProductService createProductService, ImageStorage imageStorage) {
+                             CreateProductService createProductService,
+                             ImageStorage imageStorage) {
         this.getProductListService = getProductListService;
         this.createProductService = createProductService;
         this.imageStorage = imageStorage;
@@ -40,7 +40,7 @@ public class ProductController {
         String name = dto.name().strip();
         String imageUrl = imageStorage.save(dto.image());
         Money price = new Money(dto.price());
-
-        createProductService.createProduct(name, imageUrl, price);
+        String imageUrl = imageStorage.save(dto.image());
+        createProductService.createProduct(name, price, imageUrl);
     }
 }

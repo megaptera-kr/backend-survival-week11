@@ -13,11 +13,12 @@ public class ProductListDto {
         return products;
     }
 
+    // 오류 수정 커밋용 주석
     public record ProductDto(
-        String id,
-        String name,
-        String imageUrl,
-        Long price
+            String id,
+            String name,
+            Long price,
+            String image
     ) {
     }
 }
