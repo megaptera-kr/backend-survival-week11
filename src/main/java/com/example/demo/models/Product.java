@@ -15,6 +15,10 @@ public class Product {
     @Column(name = "name")
     private String name;
 
+    @Embedded
+    @Column(name= "image")
+    private Image image;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -28,14 +32,15 @@ public class Product {
     private Product() {
     }
 
-    public Product(ProductId id, String name, Money price) {
+    public Product(ProductId id, String name, Money price, String image) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.image = new Image(image);
     }
 
     public static Product create(String name, Money price) {
-        return new Product(ProductId.generate(), name, price);
+        return new Product(ProductId.generate(), name, price, Image.generate());
     }
 
     public ProductId id() {
@@ -45,6 +50,8 @@ public class Product {
     public String name() {
         return name;
     }
+
+    public Image image() { return image;}
 
     public Money price() {
         return price;
