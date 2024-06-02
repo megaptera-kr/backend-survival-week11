@@ -1,10 +1,16 @@
 package com.example.demo.models;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
@@ -14,6 +20,9 @@ public class Product {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -28,14 +37,15 @@ public class Product {
     private Product() {
     }
 
-    public Product(ProductId id, String name, Money price) {
+    public Product(ProductId id, String name, String imageUrl, Money price) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.price = price;
     }
 
-    public static Product create(String name, Money price) {
-        return new Product(ProductId.generate(), name, price);
+    public static Product create(String name, String ImageUrl, Money price ) {
+        return new Product(ProductId.generate(), name, ImageUrl, price);
     }
 
     public ProductId id() {
@@ -44,6 +54,10 @@ public class Product {
 
     public String name() {
         return name;
+    }
+
+    public String imageUrl() {
+        return imageUrl;
     }
 
     public Money price() {

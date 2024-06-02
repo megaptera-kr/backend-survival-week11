@@ -1,10 +1,12 @@
 package com.example.demo.application.product;
 
+import jakarta.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.example.demo.models.Money;
 import com.example.demo.models.Product;
 import com.example.demo.repositories.ProductRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
@@ -15,8 +17,8 @@ public class CreateProductService {
         this.productRepository = productRepository;
     }
 
-    public Product createProduct(String name, Money price) {
-        Product product = Product.create(name, price);
+    public Product createProduct(String name, String imageUrl, Money price) {
+        Product product = Product.create(name, imageUrl, price);
 
         productRepository.save(product);
 

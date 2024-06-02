@@ -7,7 +7,7 @@ import com.example.demo.dtos.ProductListDto;
 import com.example.demo.models.Money;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.demo.utils.ImageStorage;
 @RestController
 @RequestMapping("products")
 @CrossOrigin
@@ -30,6 +30,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody CreateProductDto dto) {
         String name = dto.name().strip();
+        String imageUrl = imageStorage.save(dto.image());
         Money price = new Money(dto.price());
 
         createProductService.createProduct(name, price);
